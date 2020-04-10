@@ -1,7 +1,7 @@
 """
 Poker Hand Predictor
 """
-from tkinter import Tk, Menu
+from tkinter import Tk, Menu, Button
 from tkinter import messagebox as msg
 def helpmenu():
     """ help menu funciton """
@@ -16,6 +16,7 @@ class PokerHandPredictor():
         self.master.resizable(False, False)
         self.menu = Menu(self.master)
         self.file_menu = Menu(self.menu, tearoff=0)
+        self.file_menu.add_command(label="Predict")
         self.file_menu.add_command(label="Exit", accelerator='Alt+F4', command=self.exitmenu)
         self.menu.add_cascade(label="File", menu=self.file_menu)
         self.about_menu = Menu(self.menu, tearoff=0)
@@ -28,6 +29,8 @@ class PokerHandPredictor():
         self.master.bind('<Alt-F4>', lambda event: self.exitmenu())
         self.master.bind('<Control-F1>', lambda event: helpmenu())
         self.master.bind('<Control-i>', lambda event: aboutmenu())
+        self.pbutton = Button(self.master, text="Predict")
+        self.pbutton.pack()
     def exitmenu(self):
         """ exit menu function """
         if msg.askokcancel("Quit?", "Really quit?"):
