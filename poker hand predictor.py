@@ -3,6 +3,8 @@ Poker Hand Predictor
 """
 from tkinter import Tk, Menu, Button, StringVar, OptionMenu, LEFT, RIGHT
 from tkinter import messagebox as msg
+import numpy as np
+import pickle
 def helpmenu():
     """ help menu funciton """
 def aboutmenu():
@@ -14,6 +16,7 @@ class PokerHandPredictor():
         self.master.title("Poker Hand Predictor")
         self.master.geometry("250x190")
         self.master.resizable(False, False)
+        self.model= pickle.load( open('poker_hand_d_t.sav', "rb"))
         self.menu = Menu(self.master)
         self.file_menu = Menu(self.menu, tearoff=0)
         self.file_menu.add_command(label="Predict")
@@ -79,7 +82,14 @@ class PokerHandPredictor():
         self.rankc5.set(rank_of_card5[0])
         self.rankofcard5menu = OptionMenu(self.master, self.rankc5, *rank_of_card5)
         self.rankofcard5menu.grid(row=4, column=1)
-        self.pbutton = Button(self.master, text="Predict")
+        self.pbutton = Button(self.master, text="Predict", command=self.prediction)
+        self.pbutton.grid(row=5, column=5)
+    def input_val(self, input):
+        pass
+    def prediction(self):
+        print(input)
+        msg.showinfo("PREDICTION",self.model.predict(np.array([1,2,2,2,4,4,1,4,1,9]).reshape(1, -1)))
+
     def exitmenu(self):
         """ exit menu function """
         if msg.askokcancel("Quit?", "Really quit?"):
