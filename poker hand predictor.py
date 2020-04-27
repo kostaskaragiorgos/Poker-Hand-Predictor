@@ -92,16 +92,18 @@ class PokerHandPredictor():
         inputs = self.input_val()
         for i in range(len(inputs)):
             if inputs[i] == "Hearts":
-                inputs[i] = 1
+                inputs[i] = int(1)
             elif inputs[i] == "Spades":
-                inputs[i] = 2
+                inputs[i] = int(2)
             elif inputs[i] == "Diamonds":
-                inputs[i] = 3
+                inputs[i] = int(3)
             elif inputs[i] == "Clubs":
-                inputs[i] = 4
+                inputs[i] = int(4)
+        for i in range(0, len(inputs)): 
+            inputs[i] = int(inputs[i]) 
         print(inputs)
         hands = ("NO HAND", "ONE PAIR", "TWO PAIRS", "THREE OF A KIND", "STRAIGHT", "FLUSH","FOOL HOUSE", "FOUR OF A KIND", "STRAIGHT FLUSH", "ROYAL FLUSH")
-        msg.showinfo("PREDICTION",str(hands[int(self.model.predict(np.array(inputs).reshape(1, -1)))]))
+        msg.showinfo("PREDICTION",str(hands[np.argmax(self.model.predict(np.array([inputs]).reshape(1, -1)))]))
 
     def exitmenu(self):
         """ exit menu function """
