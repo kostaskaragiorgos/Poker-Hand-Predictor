@@ -100,7 +100,8 @@ class PokerHandPredictor():
             elif inputs[i] == "Clubs":
                 inputs[i] = 4
         print(inputs)
-        msg.showinfo("PREDICTION",int(self.model.predict(np.array(inputs).reshape(1, -1))))
+        hands = ("NO HAND", "ONE PAIR", "TWO PAIRS", "THREE OF A KIND", "STRAIGHT", "FLUSH","FOOL HOUSE", "FOUR OF A KIND", "STRAIGHT FLUSH", "ROYAL FLUSH")
+        msg.showinfo("PREDICTION",str(hands[int(self.model.predict(np.array(inputs).reshape(1, -1)))]))
 
     def exitmenu(self):
         """ exit menu function """
