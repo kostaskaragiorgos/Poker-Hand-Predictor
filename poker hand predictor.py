@@ -44,7 +44,7 @@ class PokerHandPredictor():
         self.rankofcard1menu.grid(row=0, column=1)
         suit_of_card2 = list(["Hearts", "Spades", "Diamonds", "Clubs"])
         self.suitc2 = StringVar(master)
-        self.suitc2.set(suit_of_card1[0])
+        self.suitc2.set(suit_of_card2[0])
         self.suitofcard2menu = OptionMenu(self.master, self.suitc2, *suit_of_card2)
         self.suitofcard2menu.grid(row=1, column=0)
         rank_of_card2 = list(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"])
@@ -54,7 +54,7 @@ class PokerHandPredictor():
         self.rankofcard2menu.grid(row=1, column=1)
         suit_of_card3 = list(["Hearts", "Spades", "Diamonds", "Clubs"])
         self.suitc3 = StringVar(master)
-        self.suitc3.set(suit_of_card1[0])
+        self.suitc3.set(suit_of_card3[0])
         self.suitofcard3menu = OptionMenu(self.master, self.suitc3, *suit_of_card3)
         self.suitofcard3menu.grid(row=2, column=0)
         rank_of_card3 = list(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"])
@@ -70,7 +70,7 @@ class PokerHandPredictor():
         rank_of_card4 = list(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"])
         self.rankc4 = StringVar(master)
         self.rankc4.set(rank_of_card4[0])
-        self.rankofcard4menu = OptionMenu(self.master, self.rankc3, *rank_of_card3)
+        self.rankofcard4menu = OptionMenu(self.master, self.rankc4, *rank_of_card4)
         self.rankofcard4menu.grid(row=3, column=1)
         suit_of_card5 = list(["Hearts", "Spades", "Diamonds", "Clubs"])
         self.suitc5 = StringVar(master)
@@ -84,11 +84,23 @@ class PokerHandPredictor():
         self.rankofcard5menu.grid(row=4, column=1)
         self.pbutton = Button(self.master, text="Predict", command=self.prediction)
         self.pbutton.grid(row=5, column=5)
-    def input_val(self, input):
-        pass
+    def input_val(self):
+        input= [self.suitc1.get(), self.rankc1.get(), self.suitc2.get(), self.rankc2.get(), self.suitc3.get(), self.rankc3.get(), self.suitc4.get(), self.rankc4.get(), self.suitc5.get(), self.rankc5.get()]
+        return input
+        
     def prediction(self):
-        print(input)
-        msg.showinfo("PREDICTION",self.model.predict(np.array([1,2,2,2,4,4,1,4,1,9]).reshape(1, -1)))
+        inputs = self.input_val()
+        for i in range(len(inputs)):
+            if inputs[i] == "Hearts":
+                inputs[i] = 1
+            elif inputs[i] == "Spades":
+                inputs[i] = 2
+            elif inputs[i] == "Diamonds":
+                inputs[i] = 3
+            elif inputs[i] == "Clubs":
+                inputs[i] = 4
+        print(inputs)
+        msg.showinfo("PREDICTION",self.model.predict(np.array(inputs).reshape(1, -1)))
 
     def exitmenu(self):
         """ exit menu function """
