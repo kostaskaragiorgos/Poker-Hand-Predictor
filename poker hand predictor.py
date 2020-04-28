@@ -16,7 +16,7 @@ class PokerHandPredictor():
         self.master.title("Poker Hand Predictor")
         self.master.geometry("250x190")
         self.master.resizable(False, False)
-        self.model= pickle.load( open('poker_hand_d_t.sav', "rb"))
+        self.model= pickle.load( open('model_nn.sav', "rb"))
         self.menu = Menu(self.master)
         self.file_menu = Menu(self.menu, tearoff=0)
         self.file_menu.add_command(label="Predict")
