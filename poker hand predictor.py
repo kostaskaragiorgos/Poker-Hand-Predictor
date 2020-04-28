@@ -16,7 +16,7 @@ class PokerHandPredictor():
         self.master.title("Poker Hand Predictor")
         self.master.geometry("250x190")
         self.master.resizable(False, False)
-        self.model= pickle.load( open('model_nn.sav', "rb"))
+        self.model= pickle.load( open('poker_hand_n_n.sav', "rb"))
         self.menu = Menu(self.master)
         self.file_menu = Menu(self.menu, tearoff=0)
         self.file_menu.add_command(label="Predict")
@@ -99,6 +99,12 @@ class PokerHandPredictor():
                 inputs[i] = int(3)
             elif inputs[i] == "Clubs":
                 inputs[i] = int(4)
+            elif inputs[i] == "J":
+                inputs[i] = 11
+            elif inputs[i] == "Q":
+                inputs[i] = 12
+            elif inputs[i] == "K":
+                inputs[i] = 13
         for i in range(0, len(inputs)): 
             inputs[i] = int(inputs[i]) 
         print(inputs)
