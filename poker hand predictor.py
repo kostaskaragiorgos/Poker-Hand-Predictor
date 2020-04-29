@@ -16,6 +16,7 @@ class PokerHandPredictor():
         self.master.title("Poker Hand Predictor")
         self.master.geometry("250x190")
         self.master.resizable(False, False)
+        self.inputs = []
         self.model= pickle.load( open('poker_hand_n_n.sav', "rb"))
         self.menu = Menu(self.master)
         self.file_menu = Menu(self.menu, tearoff=0)
@@ -85,41 +86,41 @@ class PokerHandPredictor():
         self.pbutton = Button(self.master, text="Predict", command=self.prediction)
         self.pbutton.grid(row=5, column=5)
     def input_val(self):
-        state = True
         input= [self.suitc1.get(), self.rankc1.get(), self.suitc2.get(), self.rankc2.get(), self.suitc3.get(), self.rankc3.get(), self.suitc4.get(), self.rankc4.get(), self.suitc5.get(), self.rankc5.get()]
+        return input
+    def convertinputs(self):
+        for i in range(len(self.inputs)):
+            if self.inputs[i] == "Hearts":
+                self.inputs[i] = int(1)
+            elif self.inputs[i] == "Spades":
+                self.inputs[i] = int(2)
+            elif self.inputs[i] == "Diamonds":
+                self.inputs[i] = int(3)
+            elif self.inputs[i] == "Clubs":
+                self.inputs[i] = int(4)
+            elif self.inputs[i] == "J":
+                self.inputs[i] = 11
+            elif self.inputs[i] == "Q":
+                self.inputs[i] = 12
+            elif self.inputs[i] == "K":
+                self.inputs[i] = 13
+        for i in range(0, len(self.inputs)): 
+            self.inputs[i] = int(self.inputs[i])
+        
+    def prediction(self):
+        hands = ("NO HAND", "ONE PAIR", "TWO PAIRS", "THREE OF A KIND", "STRAIGHT", "FLUSH","FOOL HOUSE", "FOUR OF A KIND", "STRAIGHT FLUSH", "ROYAL FLUSH")
+        self.inputs = self.input_val()
         suits = [self.suitc1.get(),self.suitc2.get(), self.suitc3.get(), self.suitc4.get(), self.suitc5.get()]
         ranks = [self.rankc1.get(), self.rankc2.get(),self.rankc3.get(),self.rankc4.get(),self.rankc5.get()]
         if  (suits[0] == (suits [1] or suits[2] or suits[3] or suits[4] ) or (suits[1] == (suits[2] or suits[3] or suits[4])) or suits[2] == (suits[3] or suits[4]) or suits[3] ==(suits[4])):
             if (ranks[0] == (ranks [1] or ranks[2] or ranks[3] or ranks[4] ) or (ranks[1] == (ranks[2] or ranks[3] or ranks[4])) or ranks[2] == (ranks[3] or ranks[4]) or ranks[3] ==(ranks[4])):
-                state = False
-                return input, state
+                msg.showerror("ERROR", "INVALID HAND")
+            else:
+                self.convertinputs()
+                msg.showinfo("PREDICTION",str(hands[np.argmax(self.model.predict(np.array([self.inputs]).reshape(1, -1)))]))
         else:
-            return input,state
-        
-    def prediction(self):
-        inputs, state = self.input_val()
-        if state == False:
-            msg.showerror("ERROR", "INVALID HAND")
-        else:
-            for i in range(len(inputs)):
-                if inputs[i] == "Hearts":
-                    inputs[i] = int(1)
-                elif inputs[i] == "Spades":
-                    inputs[i] = int(2)
-                elif inputs[i] == "Diamonds":
-                    inputs[i] = int(3)
-                elif inputs[i] == "Clubs":
-                    inputs[i] = int(4)
-                elif inputs[i] == "J":
-                    inputs[i] = 11
-                elif inputs[i] == "Q":
-                    inputs[i] = 12
-                elif inputs[i] == "K":
-                    inputs[i] = 13
-            for i in range(0, len(inputs)): 
-                inputs[i] = int(inputs[i])
-            hands = ("NO HAND", "ONE PAIR", "TWO PAIRS", "THREE OF A KIND", "STRAIGHT", "FLUSH","FOOL HOUSE", "FOUR OF A KIND", "STRAIGHT FLUSH", "ROYAL FLUSH")
-            msg.showinfo("PREDICTION",str(hands[np.argmax(self.model.predict(np.array([inputs]).reshape(1, -1)))]))
+            self.convertinputs()
+            msg.showinfo("PREDICTION",str(hands[np.argmax(self.model.predict(np.array([self.inputs]).reshape(1, -1)))]))
 
     def exitmenu(self):
         """ exit menu function """
