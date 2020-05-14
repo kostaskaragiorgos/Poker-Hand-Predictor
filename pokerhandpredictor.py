@@ -107,8 +107,8 @@ class PokerHandPredictor():
         for i in range(0, len(self.inputs)): 
             self.inputs[i] = int(self.inputs[i])
     def predictf(self,suits,ranks, hands):
-        if  (suits[0] == any(suits ) or (suits[1] == any(suits)) or suits[2] == any(suits) or suits[3] ==(suits[4])):
-            if (ranks[0] == (ranks [1] or ranks[2] or ranks[3] or ranks[4] ) or (ranks[1] == (ranks[2] or ranks[3] or ranks[4])) or ranks[2] == (ranks[3] or ranks[4]) or ranks[3] ==(ranks[4])):
+        if  (suits[0] == any(suits ) or (suits[1] == any(suits)) or (suits[2] == any(suits)) or suits[3] ==(suits[4])):
+            if (ranks[0] == any(ranks) or (ranks[1] == any(ranks)) or (ranks[2] == any (ranks)) or ranks[3] ==(ranks[4])):
                 msg.showerror("ERROR", "INVALID HAND")
             else:
                 self.convertinputs()
