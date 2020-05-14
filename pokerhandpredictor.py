@@ -106,13 +106,8 @@ class PokerHandPredictor():
                 self.inputs[i] = 13
         for i in range(0, len(self.inputs)): 
             self.inputs[i] = int(self.inputs[i])
-        
-    def prediction(self):
-        hands = ("NO HAND", "ONE PAIR", "TWO PAIRS", "THREE OF A KIND", "STRAIGHT", "FLUSH","FOOL HOUSE", "FOUR OF A KIND", "STRAIGHT FLUSH", "ROYAL FLUSH")
-        self.inputs = self.input_val()
-        suits = [self.suitc1.get(),self.suitc2.get(), self.suitc3.get(), self.suitc4.get(), self.suitc5.get()]
-        ranks = [self.rankc1.get(), self.rankc2.get(),self.rankc3.get(),self.rankc4.get(),self.rankc5.get()]
-        if  (suits[0] == (suits [1] or suits[2] or suits[3] or suits[4] ) or (suits[1] == (suits[2] or suits[3] or suits[4])) or suits[2] == (suits[3] or suits[4]) or suits[3] ==(suits[4])):
+    def predictf(self,suits,ranks, hands):
+        if  (suits[0] == any(suits ) or (suits[1] == any(suits)) or suits[2] == any(suits) or suits[3] ==(suits[4])):
             if (ranks[0] == (ranks [1] or ranks[2] or ranks[3] or ranks[4] ) or (ranks[1] == (ranks[2] or ranks[3] or ranks[4])) or ranks[2] == (ranks[3] or ranks[4]) or ranks[3] ==(ranks[4])):
                 msg.showerror("ERROR", "INVALID HAND")
             else:
@@ -121,7 +116,12 @@ class PokerHandPredictor():
         else:
             self.convertinputs()
             msg.showinfo("PREDICTION",str(hands[np.argmax(self.model.predict(np.array([self.inputs]).reshape(1, -1)))]))
-
+    def prediction(self):
+        hands = ("NO HAND", "ONE PAIR", "TWO PAIRS", "THREE OF A KIND", "STRAIGHT", "FLUSH","FOOL HOUSE", "FOUR OF A KIND", "STRAIGHT FLUSH", "ROYAL FLUSH")
+        self.inputs = self.input_val()
+        suits = [self.suitc1.get(),self.suitc2.get(), self.suitc3.get(), self.suitc4.get(), self.suitc5.get()]
+        ranks = [self.rankc1.get(), self.rankc2.get(),self.rankc3.get(),self.rankc4.get(),self.rankc5.get()]
+        self.predictf(suits,ranks, hands)
     def exitmenu(self):
         """ exit menu function """
         if msg.askokcancel("Quit?", "Really quit?"):
